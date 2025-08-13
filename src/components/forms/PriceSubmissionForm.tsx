@@ -6,8 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Upload, Camera, DollarSign, MapPin } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { Upload, Camera, DollarSign, MapPin, ExternalLink, Calendar } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface PriceSubmissionFormProps {
   onSubmit: (data: any) => void;
@@ -24,7 +24,9 @@ export const PriceSubmissionForm = ({ onSubmit, onCancel }: PriceSubmissionFormP
     location: '',
     brand: '',
     observations: '',
-    image: null as File | null
+    image: null as File | null,
+    waybackUrl: '',
+    captureDate: ''
   });
 
   const supermarkets = [
@@ -45,6 +47,46 @@ export const PriceSubmissionForm = ({ onSubmit, onCancel }: PriceSubmissionFormP
 
   const units = ['kg', 'L', 'unidade', 'pacote'];
 
+  // Marcas aceitas para validação
+  const acceptedBrands = [
+    'Tio João', 'Camil', 'Nestlé', 'Itambé', 'Parmalat', 'Soya', 'Liza', 
+    'União', 'Cristal', 'Da Barra', 'Taeq', 'Carrefour', 'Qualitá'
+  ];
+
+  // Função para verificar se é último sábado do mês
+  const isLastSaturdayOfMonth = (date: Date): boolean => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const lastDayOfMonth = new Date(year, month + 1, 0);
+    
+    // Encontra o último sábado do mês
+    let lastSaturday = lastDayOfMonth;
+    while (lastSaturday.getDay() !== 6) {
+      lastSaturday.setDate(lastSaturday.getDate() - 1);
+    }
+    
+    return date.toDateString() === lastSaturday.toDateString();
+  };
+
+  // Função para validar URL do Wayback Machine
+  const isValidWaybackUrl = (url: string): boolean => {
+    const waybackPattern = /^https?:\/\/web\.archive\.org\/web\/\d{14}\//;
+    return waybackPattern.test(url);
+  };
+
+  // Função para extrair data da URL do Wayback Machine
+  const extractDateFromWaybackUrl = (url: string): Date | null => {
+    const match = url.match(/\/web\/(\d{14})\//);
+    if (!match) return null;
+    
+    const timestamp = match[1];
+    const year = parseInt(timestamp.substring(0, 4));
+    const month = parseInt(timestamp.substring(4, 6)) - 1;
+    const day = parseInt(timestamp.substring(6, 8));
+    
+    return new Date(year, month, day);
+  };
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -59,13 +101,63 @@ export const PriceSubmissionForm = ({ onSubmit, onCancel }: PriceSubmissionFormP
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.supermarket || !formData.product || !formData.price) {
+    // Validações obrigatórias
+    if (!formData.supermarket || !formData.product || !formData.price || !formData.brand) {
       toast({
         title: "Campos obrigatórios",
-        description: "Preencha supermercado, produto e preço",
+        description: "Preencha supermercado, produto, preço e marca",
         variant: "destructive"
       });
       return;
+    }
+
+    // Validações do Wayback Machine se URL foi fornecida
+    if (formData.waybackUrl) {
+      // Verifica se a URL é válida do Wayback Machine
+      if (!isValidWaybackUrl(formData.waybackUrl)) {
+        toast({
+          title: "URL inválida",
+          description: "A URL deve ser do Wayback Machine (web.archive.org)",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Extrai e valida a data da captura
+      const captureDate = extractDateFromWaybackUrl(formData.waybackUrl);
+      if (!captureDate) {
+        toast({
+          title: "Data inválida",
+          description: "Não foi possível extrair a data da URL do Wayback Machine",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Verifica se foi capturado no último sábado do mês
+      if (!isLastSaturdayOfMonth(captureDate)) {
+        toast({
+          title: "Data não aceita",
+          description: "Aceito apenas capturas do último sábado do mês",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Verifica se a marca está na lista aceita
+      if (!acceptedBrands.includes(formData.brand)) {
+        toast({
+          title: "Marca não aceita",
+          description: "Esta marca não está na lista de marcas aceitas para Wayback Machine",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      toast({
+        title: "URL do Wayback Machine validada!",
+        description: `Captura válida de ${captureDate.toLocaleDateString('pt-BR')}`,
+      });
     }
 
     onSubmit(formData);
@@ -136,13 +228,20 @@ export const PriceSubmissionForm = ({ onSubmit, onCancel }: PriceSubmissionFormP
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="brand">Marca</Label>
-              <Input
-                id="brand"
-                placeholder="Ex: Tio João"
-                value={formData.brand}
-                onChange={(e) => setFormData(prev => ({ ...prev, brand: e.target.value }))}
-              />
+              <Label htmlFor="brand">Marca *</Label>
+              <Select 
+                value={formData.brand} 
+                onValueChange={(value) => setFormData(prev => ({ ...prev, brand: value }))}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione a marca" />
+                </SelectTrigger>
+                <SelectContent>
+                  {acceptedBrands.map(brand => (
+                    <SelectItem key={brand} value={brand}>{brand}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
@@ -165,6 +264,26 @@ export const PriceSubmissionForm = ({ onSubmit, onCancel }: PriceSubmissionFormP
               onChange={(e) => setFormData(prev => ({ ...prev, observations: e.target.value }))}
               rows={3}
             />
+          </div>
+
+          {/* Seção do Wayback Machine */}
+          <div className="space-y-4 p-4 border border-primary/20 rounded-lg bg-primary/5">
+            <div className="flex items-center space-x-2">
+              <ExternalLink className="h-4 w-4 text-primary" />
+              <Label className="text-sm font-medium">URL do Wayback Machine (Opcional)</Label>
+            </div>
+            <div className="space-y-2">
+              <Input
+                id="waybackUrl"
+                placeholder="https://web.archive.org/web/20241230120000/http://..."
+                value={formData.waybackUrl}
+                onChange={(e) => setFormData(prev => ({ ...prev, waybackUrl: e.target.value }))}
+              />
+              <p className="text-xs text-muted-foreground flex items-center space-x-1">
+                <Calendar className="h-3 w-3" />
+                <span>Aceito apenas capturas do último sábado do mês de marcas pré-aprovadas</span>
+              </p>
+            </div>
           </div>
 
           <div className="space-y-2">
