@@ -6,52 +6,52 @@
 
 @layer base {
   :root {
-    /* Base colors */
-    --background: 248 250 252;
-    --foreground: 226 232 240;
+    /* Base colors - Default dark theme */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
 
     /* Card system */
-    --card: 255 255 255;
-    --card-foreground: 51 65 85;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
 
     /* Popover system */
-    --popover: 255 255 255;
-    --popover-foreground: 51 65 85;
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
 
     /* Primary - Economic blue for trust and stability */
-    --primary: 219 78% 17%;
-    --primary-foreground: 248 250 252;
-    --primary-light: 219 78% 25%;
-    --primary-glow: 219 78% 35%;
+    --primary: 219 78% 70%;
+    --primary-foreground: 0 0% 0%;
+    --primary-light: 219 78% 75%;
+    --primary-glow: 219 78% 80%;
 
     /* Secondary - Neutral professional tones */
-    --secondary: 215 28% 17%;
-    --secondary-foreground: 248 250 252;
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 0 0% 100%;
 
     /* Economic indicators */
-    --economic-positive: 142 71% 45%;
-    --economic-negative: 0 84% 60%;
-    --economic-neutral: 47 85% 63%;
-    --economic-warning: 25 95% 53%;
+    --economic-positive: 142 71% 55%;
+    --economic-negative: 0 84% 65%;
+    --economic-neutral: 47 85% 70%;
+    --economic-warning: 25 95% 60%;
 
     /* Muted tones for data presentation */
-    --muted: 220 13% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 70%;
 
     /* Accent for highlights and CTAs */
-    --accent: 220 13% 96%;
-    --accent-foreground: 219 78% 17%;
+    --accent: 0 0% 10%;
+    --accent-foreground: 219 78% 70%;
 
     /* Status colors */
     --destructive: 0 84% 60%;
-    --destructive-foreground: 248 250 252;
-    --success: 142 71% 45%;
-    --success-foreground: 248 250 252;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 71% 50%;
+    --success-foreground: 0 0% 100%;
 
     /* Interface elements */
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 219 78% 17%;
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 219 78% 70%;
 
     /* Design system enhancements */
     --radius: 0.75rem;
@@ -63,9 +63,9 @@
     --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(var(--muted)));
 
     /* Data visualization shadows */
-    --shadow-data: 0 4px 20px -2px hsl(var(--primary) / 0.1);
-    --shadow-economic: 0 8px 32px -4px hsl(var(--primary) / 0.15);
-    --shadow-hover: 0 12px 40px -8px hsl(var(--primary) / 0.2);
+    --shadow-data: 0 4px 20px -2px hsl(var(--primary) / 0.2);
+    --shadow-economic: 0 8px 32px -4px hsl(var(--primary) / 0.25);
+    --shadow-hover: 0 12px 40px -8px hsl(var(--primary) / 0.3);
 
     /* Animation system */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -77,21 +77,14 @@
     --font-weight-metric: 700;
     --font-weight-data: 600;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 219 78% 70%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 219 78% 70%;
   }
 
   .dark {
