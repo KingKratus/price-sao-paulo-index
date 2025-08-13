@@ -2,41 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* São Paulo Inflation Index Design System - Professional Economic Dashboard */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Base colors */
+    --background: 248 250 252;
+    --foreground: 226 232 240;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Card system */
+    --card: 255 255 255;
+    --card-foreground: 51 65 85;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Popover system */
+    --popover: 255 255 255;
+    --popover-foreground: 51 65 85;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Economic blue for trust and stability */
+    --primary: 219 78% 17%;
+    --primary-foreground: 248 250 252;
+    --primary-light: 219 78% 25%;
+    --primary-glow: 219 78% 35%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Neutral professional tones */
+    --secondary: 215 28% 17%;
+    --secondary-foreground: 248 250 252;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Economic indicators */
+    --economic-positive: 142 71% 45%;
+    --economic-negative: 0 84% 60%;
+    --economic-neutral: 47 85% 63%;
+    --economic-warning: 25 95% 53%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Muted tones for data presentation */
+    --muted: 220 13% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Accent for highlights and CTAs */
+    --accent: 220 13% 96%;
+    --accent-foreground: 219 78% 17%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Status colors */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 248 250 252;
+    --success: 142 71% 45%;
+    --success-foreground: 248 250 252;
 
-    --radius: 0.5rem;
+    /* Interface elements */
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 219 78% 17%;
+
+    /* Design system enhancements */
+    --radius: 0.75rem;
+
+    /* Professional gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
+    --gradient-economic: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--economic-positive)));
+    --gradient-dashboard: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(var(--muted)));
+
+    /* Data visualization shadows */
+    --shadow-data: 0 4px 20px -2px hsl(var(--primary) / 0.1);
+    --shadow-economic: 0 8px 32px -4px hsl(var(--primary) / 0.15);
+    --shadow-hover: 0 12px 40px -8px hsl(var(--primary) / 0.2);
+
+    /* Animation system */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* Typography scale for financial data */
+    --font-size-metric: 2.5rem;
+    --font-size-indicator: 1.125rem;
+    --font-weight-metric: 700;
+    --font-weight-data: 600;
 
     --sidebar-background: 0 0% 98%;
 
@@ -56,41 +95,73 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    /* Base colors - dark theme */
+    --background: 222 84% 5%;
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+    /* Card system - dark */
+    --card: 222 84% 5%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
+    /* Popover system - dark */
+    --popover: 222 84% 5%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    /* Primary - Economic blue adapted for dark */
+    --primary: 219 78% 70%;
+    --primary-foreground: 222 84% 5%;
+    --primary-light: 219 78% 75%;
+    --primary-glow: 219 78% 80%;
 
-    --secondary: 217.2 32.6% 17.5%;
+    /* Secondary - dark professional tones */
+    --secondary: 215 28% 25%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    /* Economic indicators - dark theme */
+    --economic-positive: 142 71% 55%;
+    --economic-negative: 0 84% 65%;
+    --economic-neutral: 47 85% 70%;
+    --economic-warning: 25 95% 60%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    /* Muted tones for data presentation - dark */
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
 
-    --destructive: 0 62.8% 30.6%;
+    /* Accent for highlights - dark */
+    --accent: 217 33% 17%;
+    --accent-foreground: 219 78% 70%;
+
+    /* Status colors - dark */
+    --destructive: 0 62% 50%;
     --destructive-foreground: 210 40% 98%;
+    --success: 142 71% 50%;
+    --success-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Interface elements - dark */
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 219 78% 70%;
+
+    /* Professional gradients - dark */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
+    --gradient-economic: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--economic-positive)));
+    --gradient-dashboard: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(var(--muted)));
+
+    /* Data visualization shadows - dark */
+    --shadow-data: 0 4px 20px -2px hsl(var(--primary) / 0.2);
+    --shadow-economic: 0 8px 32px -4px hsl(var(--primary) / 0.25);
+    --shadow-hover: 0 12px 40px -8px hsl(var(--primary) / 0.3);
+
+    /* Sidebar specific */
+    --sidebar-background: 240 6% 10%;
+    --sidebar-foreground: 240 5% 96%;
+    --sidebar-primary: 219 78% 70%;
+    --sidebar-primary-foreground: 222 84% 5%;
+    --sidebar-accent: 240 4% 16%;
+    --sidebar-accent-foreground: 240 5% 96%;
+    --sidebar-border: 240 4% 16%;
+    --sidebar-ring: 219 78% 70%;
   }
 }
 
